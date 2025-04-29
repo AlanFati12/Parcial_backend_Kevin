@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Sistema de Gestión de Asignaturas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item" sec:authorize="hasRole('RECTOR')">
+                    <a class="nav-link" th:href="@{/rector/asignaturas}">Gestionar Asignaturas</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('DOCENTE')">
+                    <a class="nav-link" th:href="@{/docente/asignaturas}">Mis Asignaturas</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ESTUDIANTE')">
+                    <a class="nav-link" th:href="@{/estudiante/asignaturas}">Ver Asignaturas</a>
+                </li>
+                <li class="nav-item">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-link nav-link">Cerrar Sesión</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title">Bienvenido al Sistema de Gestión de Asignaturas</h2>
+                    <p class="card-text">
+                        Selecciona una opción del menú para comenzar.
+                    </p>
+
+                    <div sec:authorize="hasRole('RECTOR')">
+                        <h5>Opciones de Rector:</h5>
+                        <ul>
+                            <li>Crear, modificar y eliminar asignaturas</li>
+                            <li>Asignar docentes a las asignaturas</li>
+                            <li>Ver listado completo de asignaturas</li>
+                        </ul>
+                        <a th:href="@{/rector/asignaturas}" class="btn btn-primary">Ir a Gestión de Asignaturas</a>
+                    </div>
+
+                    <div sec:authorize="hasRole('DOCENTE')">
+                        <h5>Opciones de Docente:</h5>
+                        <ul>
+                            <li>Ver asignaturas asignadas</li>
+                            <li>Actualizar horarios de asignaturas</li>
+                        </ul>
+                        <a th:href="@{/docente/asignaturas}" class="btn btn-primary">Ver Mis Asignaturas</a>
+                    </div>
+
+                    <div sec:authorize="hasRole('ESTUDIANTE')">
+                        <h5>Opciones de Estudiante:</h5>
+                        <ul>
+                            <li>Visualizar las asignaturas disponibles</li>
+                            <li>Ver detalles de las asignaturas</li>
+                        </ul>
+                        <a th:href="@{/estudiante/asignaturas}" class="btn btn-primary">Ver Asignaturas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
